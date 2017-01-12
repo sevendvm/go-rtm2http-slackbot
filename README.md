@@ -3,14 +3,16 @@ This bot can receive direst RTM messages from slack, send it to http server and 
 
 Bot sends GET-queries to server url with params: **user**, **message** and **email**.
 
-`const SLACK_TOKEN = "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"`
+Set settings in config.json:
 
-`const HTTP_PATH = "http://127.0.0.1/slackbot/"`
+`"SlackToken": "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"`
+
+`"HttpPath": "http://127.0.0.1/slackbot/"`
 
 Bot can use basic http auth of http-server
 
-`const BASIC_USER = "slackbot" // "" if no auth`
+`"BasicUser": "slackbot" // "" if no auth`
 
-`const BASIC_PASSWORD = "slackbot"`
+`"BasicPassword": "slackbot"`
 
 Uses slack access package "github.com/nlopes/slack"

@@ -1,0 +1,6 @@
+{
+    "SlackToken" : "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx",
+    "HttpPath": "http://127.0.0.1/slackbot/",
+    "BasicUser": "slackbot",
+    "BasicPassword": "slackbot"
+}

@@ -1,26 +1,45 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/nlopes/slack"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
-const SLACK_TOKEN = "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"
-const HTTP_PATH = "http://127.0.0.1/slackbot/"
-const BASIC_USER = "slackbot" // "" if no auth
-const BASIC_PASSWORD = "slackbot"
+type Config struct {
+	SlackToken    string
+	HttpPath      string
+	BasicUser     string
+	BasicPassword string
+}
+
+func readJSON(fn string, v interface{}) {
+	file, _ := os.Open(fn)
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	err := decoder.Decode(v)
+	if err != nil {
+		log.Println("error:", err)
+	}
+}
+
+var config Config
 
 func main() {
 
-	log.Println("Slackbot started")
+	config = Config{}
+	readJSON("config.json", &config)
 
-	api := slack.New(SLACK_TOKEN)
+	api := slack.New(config.SlackToken)
 
 	rtm := api.NewRTM()
 	go rtm.ManageConnection()
+
+	log.Println("Slackbot started")
 
 Loop:
 	for {
@@ -58,10 +77,10 @@ Loop:
 				log.Printf("User: %v; Message: %v\n", userInfo.Profile.Email, ev.Msg.Text) // ev.Msg.User, ev.Msg.Channel
 
 				client := &http.Client{}
-				req, err := http.NewRequest("GET", HTTP_PATH+"?user="+ev.Msg.User+"&message="+ev.Msg.Text+"&email="+userInfo.Profile.Email, nil)
+				req, err := http.NewRequest("GET", config.HttpPath+"?user="+ev.Msg.User+"&message="+ev.Msg.Text+"&email="+userInfo.Profile.Email, nil)
 
-				if BASIC_USER != "" {
-					req.SetBasicAuth(BASIC_USER, BASIC_PASSWORD)
+				if config.BasicUser != "" {
+					req.SetBasicAuth(config.BasicUser, config.BasicPassword)
 				}
 
 				resp, err := client.Do(req)
