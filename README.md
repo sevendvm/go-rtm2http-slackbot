@@ -1,5 +1,6 @@
 # go-rtm2http-slackbot
-This bot can receive direst RTM messages from slack, send it to http server and send reply to to slack user
+This bot can receive direst RTM messages from slack, send it to http server and send reply to to slack user.
+It can translate slack user messages to 1C.
 
 Bot sends GET-queries to server url with params: **user**, **message** and **email**.
 
@@ -8,6 +9,8 @@ Set settings in config.json:
 `"SlackToken": "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"`
 
 `"HttpPath": "http://127.0.0.1/slackbot/"`
+
+You can take token at https://my.slack.com/services/new/bot
 
 Bot can use basic http auth of http-server
 
