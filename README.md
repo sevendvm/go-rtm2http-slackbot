@@ -1,6 +1,6 @@
 # go-rtm2http-slackbot
 This bot can receive direst RTM messages from slack, send it to http server and send reply to to slack user.
-It can translate slack user messages to 1C.
+It can translate slack user messages to 1C (example http://infostart.ru/public/581824/).
 
 Bot sends GET-queries to server url with params: **user**, **message** and **email**.
 
