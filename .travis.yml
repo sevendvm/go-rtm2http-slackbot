@@ -1,0 +1,27 @@
+language: go
+sudo: false
+go:
+  - "1.10"
+  - tip
+
+script:
+  - go test -v -covermode=count -coverprofile=coverage.out
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+before_deploy:
+  - curl -sL https://git.io/goreleaser | bash
+deploy:
+  provider: releases
+  api_key: $API_TOKEN
+  file_glob: true
+  file:
+    - dist/go-rtm2http-slackbot-*.zip
+    - dist/go-rtm2http-slackbot-*.tar.bz2
+    - dist/go-rtm2http-slackbot-*.sha256
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: nikepan/go-rtm2http-slackbot
+    condition: $TRAVIS_GO_VERSION =~ ^1\.9\.[0-9]+$

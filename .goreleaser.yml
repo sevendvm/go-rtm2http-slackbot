@@ -1,0 +1,21 @@
+---
+project_name: go-rtm2http-slackbot
+
+release:
+  github:
+    owner: nikepan
+    name: go-rtm2http-slackbot
+
+builds:
+  - binary: go-rtm2http-slackbot
+    goos: &goos
+      - darwin
+      - windows
+      - linux
+    goarch: &goarch
+      - amd64
+      - i386
+    env:
+      - CGO_ENABLED=0
+    main: ./
+    ldflags: -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}}
