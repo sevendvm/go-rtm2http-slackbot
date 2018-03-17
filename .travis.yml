@@ -15,7 +15,7 @@ before_deploy:
   - curl -sL https://git.io/goreleaser | bash
 deploy:
   provider: releases
-  api_key: $API_TOKEN
+  api_key: $GITHUB_TOKEN
   file_glob: true
   file:
     - dist/go-rtm2http-slackbot-*.zip
