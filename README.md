@@ -4,7 +4,10 @@ It can translate slack user messages to 1C (example http://infostart.ru/public/5
 
 Bot sends GET-queries to server url with params: **user**, **message** and **email**.
 
-Set settings in config.json:
+
+Binaries are here https://github.com/nikepan/go-rtm2http-slackbot/releases
+
+Set settings in config.json (you can use config.sample.json as example):
 
 `"SlackToken": "xoxb-xxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx"`
 
