@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/nlopes/slack"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
+
+	"github.com/nlopes/slack"
 )
 
 type Config struct {
@@ -77,7 +79,11 @@ Loop:
 				log.Printf("User: %v; Message: %v\n", userInfo.Profile.Email, ev.Msg.Text) // ev.Msg.User, ev.Msg.Channel
 
 				client := &http.Client{}
-				req, err := http.NewRequest("GET", config.HttpPath+"?user="+ev.Msg.User+"&message="+ev.Msg.Text+"&email="+userInfo.Profile.Email, nil)
+				parameters := url.Values{}
+				parameters.Add("user", ev.Msg.User)
+				parameters.Add("message", ev.Msg.Text)
+				parameters.Add("email", userInfo.Profile.Email)
+				req, err := http.NewRequest("POST", config.HttpPath, strings.NewReader(parameters.Encode()))
 
 				if config.BasicUser != "" {
 					req.SetBasicAuth(config.BasicUser, config.BasicPassword)
@@ -95,8 +101,7 @@ Loop:
 					log.Printf("HTTP read Error %v\n", err)
 				} else {
 					log.Printf("HTTP response: %+v\n", string(body))
-					params := slack.PostMessageParameters{}
-					rtm.PostMessage(ev.Msg.Channel, string(body), params)
+					rtm.SendMessage(rtm.NewOutgoingMessage(string(body), ev.Msg.Channel))
 				}
 
 			case *slack.InvalidAuthEvent:
